@@ -38,7 +38,7 @@ namespace FileSizeTree.Core
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async void Expand()
+        public void Expand()
         {
             Size = 0;
             Children.Clear();

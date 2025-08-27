@@ -1,15 +1,11 @@
 ﻿using FileSizeTree.Core;
 using FileSizeTree.FileOperation;
 using FileSizeTree.IsBusyService;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
