@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="pack://application:,,,/FileSizeTree;component/Controls/ShellWindow/ShellWindow.xaml" />
+        <ResourceDictionary
+            Source="pack://application:,,,/FileSizeTree;component/Controls/BusyIndicator/BusyIndicator.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

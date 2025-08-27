@@ -1,0 +1,30 @@
+﻿<controls:ShellWindow x:Class="FileSizeTree.AppShellWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileSizeTree"
+        xmlns:convert="clr-namespace:FileSizeTree.ValueConverter"
+        xmlns:behaviors="clr-namespace:FileSizeTree.Behaviors"
+        xmlns:controls="clr-namespace:FileSizeTree.Controls"
+        xmlns:core="clr-namespace:FileSizeTree.Core;assembly=FileSizeTree.Core"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:navigation="clr-namespace:FileSizeTree.Navigation"
+        xmlns:prism="http://prismlibrary.com/"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=local:AppShellWindowViewModel, IsDesignTimeCreatable=False}"
+        UseLayoutRounding="True"
+        IconButtonCommand="{Binding AboutPage}"
+        Title="Find large files" Height="600" Width="800">
+    <controls:ShellWindow.Resources>
+        <convert:CollectionViewSortedConverter x:Key="TreeCollectionViewSortedConverter" PropertyName="Size" SortDirection="Descending"/>
+        <convert:ElementPercentageToRootSizeConverter x:Key="ElementPercentageToRootSizeConverter"/>
+        <convert:BytesConverter x:Key="BytesConverter"/>
+        <convert:BytesConverter x:Key="BytesConverterAutomatic" IsAutoDetecting="True"/>
+        <convert:ToVisibilityConverter x:Key="ToVisibilityConverter"/>
+        <convert:ToBooleanConverter x:Key="ToBooleanConverter"/>
+    </controls:ShellWindow.Resources>
+    <ContentControl
+        prism:RegionManager.RegionName="{x:Static navigation:NavigationConstants.REGION_NAME_APPSHELL}" />
+</controls:ShellWindow>
