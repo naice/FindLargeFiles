@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FindLargeFiles.Core/FindLargeFiles.Core.csproj" />
+    <Project Path="src/FindLargeFiles.Reporting/FindLargeFiles.Reporting.csproj" />
+    <Project Path="src/FindLargeFiles/FindLargeFiles.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FindLargeFiles.Core.Tests/FindLargeFiles.Core.Tests.csproj" />
+  </Folder>
+</Solution>

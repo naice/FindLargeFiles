@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Translations, one file per locale (en.json, de.json, …). Explicit names keep MSBuild from treating them as satellite resources. -->
+    <EmbeddedResource Include="Localization\*.json" LogicalName="FindLargeFiles.Core.Localization.%(Filename)%(Extension)" WithCulture="false" />
+  </ItemGroup>
+
+</Project>

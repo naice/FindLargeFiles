@@ -1,0 +1,148 @@
+<Window x:Class="FindLargeFiles.ExportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FindLargeFiles"
+        xmlns:vm="clr-namespace:FindLargeFiles.ViewModels"
+        xmlns:l="clr-namespace:FindLargeFiles.Localization"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:ExportViewModel}"
+        Title="{l:Tr export.title}" Width="560" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
+        Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource TextBrush}"
+        FontFamily="{StaticResource UiFont}" FontSize="13"
+        TextOptions.TextFormattingMode="Display" UseLayoutRounding="True">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="56" ResizeBorderThickness="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <local:EqualsConverter x:Key="Equals" />
+        <local:VisibilityConverter x:Key="Visible" />
+
+        <Style x:Key="FormatTile" TargetType="RadioButton" BasedOn="{StaticResource TileRadio}">
+            <Setter Property="Margin" Value="0,0,8,0" />
+        </Style>
+        <Style x:Key="Group" TargetType="TextBlock" BasedOn="{StaticResource SectionLabel}">
+            <Setter Property="Margin" Value="0,18,0,8" />
+        </Style>
+        <Style x:Key="Option" TargetType="CheckBox" BasedOn="{StaticResource Switch}">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="{StaticResource BorderStrongBrush}" BorderThickness="1">
+        <StackPanel>
+            <!-- Title -->
+            <DockPanel Height="56" Margin="24,0,8,0">
+                <Button DockPanel.Dock="Right" Style="{StaticResource IconButton}" Content="&#xE8BB;" FontSize="10" IsCancel="True"
+                        WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="{l:Tr global.close}" VerticalAlignment="Center" />
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{l:Tr export.title}" FontSize="17" FontWeight="SemiBold" />
+                </StackPanel>
+            </DockPanel>
+            <Rectangle Height="1" Fill="{StaticResource BorderBrush}" />
+
+            <StackPanel Margin="24,2,24,0">
+                <!-- Format -->
+                <TextBlock Text="{l:Tr export.format}" Style="{StaticResource Group}" />
+                <UniformGrid Rows="1">
+                    <RadioButton Style="{StaticResource FormatTile}" AutomationProperties.Name="Excel"
+                                 IsChecked="{Binding Format, Converter={StaticResource Equals}, ConverterParameter=Excel}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource Icon}" Text="&#xE80A;" FontSize="20" HorizontalAlignment="Center" />
+                            <TextBlock Text="Excel" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource FormatTile}" AutomationProperties.Name="PDF"
+                                 IsChecked="{Binding Format, Converter={StaticResource Equals}, ConverterParameter=Pdf}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource Icon}" Text="&#xEA90;" FontSize="20" HorizontalAlignment="Center" />
+                            <TextBlock Text="PDF" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource FormatTile}" AutomationProperties.Name="CSV"
+                                 IsChecked="{Binding Format, Converter={StaticResource Equals}, ConverterParameter=Csv}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource Icon}" Text="&#xE9F9;" FontSize="20" HorizontalAlignment="Center" />
+                            <TextBlock Text="CSV" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource FormatTile}" Margin="0" AutomationProperties.Name="HTML"
+                                 IsChecked="{Binding Format, Converter={StaticResource Equals}, ConverterParameter=Html}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource Icon}" Text="&#xE774;" FontSize="20" HorizontalAlignment="Center" />
+                            <TextBlock Text="HTML" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </RadioButton>
+                </UniformGrid>
+                <TextBlock Text="{Binding FormatHint}" Style="{StaticResource Muted}" FontSize="12" TextWrapping="Wrap" Margin="2,10,0,0" MinHeight="32" />
+
+                <!-- Scope -->
+                <StackPanel Visibility="{Binding HasSeparateSelection, Converter={StaticResource Visible}}">
+                    <TextBlock Text="{l:Tr export.scope}" Style="{StaticResource Group}" />
+                    <RadioButton Style="{StaticResource ChipRadio}" HorizontalContentAlignment="Left" Margin="0,0,0,6" GroupName="Scope"
+                                 IsChecked="{Binding UseSelection}" AutomationProperties.Name="{l:Tr export.scope_selection_name}">
+                        <TextBlock TextTrimming="CharacterEllipsis">
+                            <Run Text="{l:Tr export.scope_selection}" Foreground="{StaticResource TextSecondaryBrush}" />
+                            <Run Text="{Binding SelectionText, Mode=OneWay}" />
+                        </TextBlock>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource ChipRadio}" HorizontalContentAlignment="Left" GroupName="Scope"
+                                 IsChecked="{Binding UseSelection, Converter={StaticResource Equals}, ConverterParameter=False}"
+                                 AutomationProperties.Name="{l:Tr export.scope_root_name}">
+                        <TextBlock TextTrimming="CharacterEllipsis">
+                            <Run Text="{l:Tr export.scope_root}" Foreground="{StaticResource TextSecondaryBrush}" />
+                            <Run Text="{Binding RootText, Mode=OneWay}" />
+                        </TextBlock>
+                    </RadioButton>
+                </StackPanel>
+
+                <!-- Content -->
+                <TextBlock Text="{l:Tr export.content}" Style="{StaticResource Group}" />
+                <CheckBox Style="{StaticResource Option}" Content="{l:Tr export.include_tree}" IsChecked="{Binding IncludeTree}" />
+                <StackPanel Margin="40,0,0,12" IsEnabled="{Binding IncludeTree}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{l:Tr export.tree_levels}" Style="{StaticResource Muted}" Width="64" VerticalAlignment="Center" />
+                        <RadioButton Style="{StaticResource ChipRadio}" GroupName="Depth" Content="1" IsChecked="{Binding TreeDepth, Converter={StaticResource Equals}, ConverterParameter=1}" />
+                        <RadioButton Style="{StaticResource ChipRadio}" GroupName="Depth" Content="2" IsChecked="{Binding TreeDepth, Converter={StaticResource Equals}, ConverterParameter=2}" />
+                        <RadioButton Style="{StaticResource ChipRadio}" GroupName="Depth" Content="3" IsChecked="{Binding TreeDepth, Converter={StaticResource Equals}, ConverterParameter=3}" />
+                        <RadioButton Style="{StaticResource ChipRadio}" GroupName="Depth" Content="4" IsChecked="{Binding TreeDepth, Converter={StaticResource Equals}, ConverterParameter=4}" />
+                        <RadioButton Style="{StaticResource ChipRadio}" GroupName="Depth" Content="5" IsChecked="{Binding TreeDepth, Converter={StaticResource Equals}, ConverterParameter=5}" />
+                    </StackPanel>
+                    <CheckBox Style="{StaticResource Switch}" Margin="0,10,0,0" Content="{l:Tr export.include_files_in_tree}" IsChecked="{Binding IncludeFilesInTree}" />
+                </StackPanel>
+
+                <CheckBox Style="{StaticResource Option}" Content="{l:Tr export.include_top_files}" IsChecked="{Binding IncludeTopFiles}" />
+                <StackPanel Orientation="Horizontal" Margin="40,0,0,12" IsEnabled="{Binding IncludeTopFiles}">
+                    <TextBlock Text="{l:Tr export.top_files_count}" Style="{StaticResource Muted}" Width="64" VerticalAlignment="Center" />
+                    <RadioButton Style="{StaticResource ChipRadio}" GroupName="Top" Content="25" IsChecked="{Binding TopFileCount, Converter={StaticResource Equals}, ConverterParameter=25}" />
+                    <RadioButton Style="{StaticResource ChipRadio}" GroupName="Top" Content="100" IsChecked="{Binding TopFileCount, Converter={StaticResource Equals}, ConverterParameter=100}" />
+                    <RadioButton Style="{StaticResource ChipRadio}" GroupName="Top" Content="500" IsChecked="{Binding TopFileCount, Converter={StaticResource Equals}, ConverterParameter=500}" />
+                </StackPanel>
+
+                <CheckBox Style="{StaticResource Option}" Content="{l:Tr export.include_extensions}" IsChecked="{Binding IncludeExtensions}" />
+                <CheckBox Style="{StaticResource Option}" Content="{l:Tr export.include_age}" IsChecked="{Binding IncludeAge}" />
+            </StackPanel>
+
+            <!-- Footer -->
+            <Border Margin="0,14,0,0" Background="{StaticResource SidebarBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="24,14">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <Button Style="{StaticResource OutlineButton}" Content="{l:Tr global.cancel}" IsCancel="True" Margin="0,0,8,0" />
+                        <Button Style="{StaticResource PrimaryButton}" IsDefault="True" Click="OnExport" AutomationProperties.Name="{l:Tr export.export_automation_name}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource Icon}" Text="&#xE896;" FontSize="12" Margin="0,0,8,0" />
+                                <TextBlock Text="{l:Tr export.export_button}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <CheckBox Style="{StaticResource Switch}" Content="{l:Tr export.open_after_export}" IsChecked="{Binding OpenAfterExport}" VerticalAlignment="Center" />
+                </DockPanel>
+            </Border>
+        </StackPanel>
+    </Border>
+</Window>
